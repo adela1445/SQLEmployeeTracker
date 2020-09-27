@@ -43,28 +43,38 @@ function start() {
         "Remove Employee",
         "Update Employee Role",
         "Update Employee Manager",
+        "Exit",
       ],
     })
     .then((answer) => {
       switch (answer.action) {
-        case "Find songs by artist":
-          // artistSearch();
+        case "View All Employees":
+          viewEmpl();
           break;
 
-        case "Find all artists who appear more than once":
-          // multiSearch();
+        case "View All Employees by Department":
+          viewEmplDept();
           break;
 
-        case "Find data within a specific range":
-          // rangeSearch();
+        case "View All Employess by Manager":
+          viewEmplMngr();
           break;
 
-        case "Search for a specific song":
-          // songSearch();
+        case "Add Employee":
+          addEmpl();
           break;
 
-        case "Find artists with a top song and top album in the same year":
-          // songAndAlbumSearch();
+        case "Remove Employee":
+          removeEmpl();
+          break;
+        case "Update Employee Role":
+          updateEmplRole();
+          break;
+        case "Update Employee Manager":
+          updateEmplMngr();
+          break;
+        case "Exit":
+          connection.end();
           break;
       }
     });
