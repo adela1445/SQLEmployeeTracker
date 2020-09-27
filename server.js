@@ -18,6 +18,7 @@ connection.connect((err) => {
   start();
 });
 
+// Starts the actions based on what the user selects.
 function start() {
   // const table = cTable.getTable([
   //   // {
@@ -78,4 +79,32 @@ function start() {
           break;
       }
     });
+}
+
+function viewEmpl() {
+  connection.query("");
+}
+
+function viewEmplDept() {
+  connection.query("");
+}
+
+function viewEmplMngr() {
+  connection.query("");
+}
+
+function addEmpl() {
+  connection.query("");
+}
+
+function removeEmpl() {
+  connection.query("");
+}
+
+function updateEmplRole() {
+  connection.query("");
+}
+
+function updateEmplMngr() {
+  connection.query("");
 }
