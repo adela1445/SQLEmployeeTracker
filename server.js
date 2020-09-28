@@ -136,7 +136,8 @@ function viewRoles() {
 }
 
 function viewEmplDept() {
-  const query = "SELECT * FROM department";
+  //will need inquirer
+  const query = "";
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.table(res);
@@ -145,7 +146,8 @@ function viewEmplDept() {
 }
 
 function viewEmplMngr() {
-  const query = "SELECT * FROM department";
+  //will need inquirer
+  const query = "";
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.table(res);
@@ -203,37 +205,26 @@ function addRole() {
     .prompt([
       {
         type: "input",
-        message: "What's the first name of the new employee?",
-        name: "employeeFName",
+        message: "What's the title of the new role?",
+        name: "newRoleTitle",
       },
       {
         type: "input",
-        message: "What's the last name of the new employee?",
-        name: "employeeLName",
+        message: "What is the salary?",
+        name: "salary",
       },
       {
         type: "input",
-        message: "What is the employee's role id #?",
-        name: "roleID",
-      },
-      {
-        type: "input",
-        message:
-          "Does the new employee have a manager? If so, what is their manager's id #?",
-        name: "managerID",
+        message: "What department does this new role belong to?",
+        name: "deptID",
       },
     ])
     .then((answer) => {
       const query =
-        "INSERT INTO employee (fname, lname, roleId, managerId) VALUES (?, ?, ?, ?);";
+        "INSERT INTO employeeRole (title, salary, deptId) VALUES (?, ?, ?);";
       connection.query(
         query,
-        [
-          answer.employeeFName,
-          answer.employeeLName,
-          answer.roleID,
-          answer.managerID,
-        ],
+        [answer.newRoleTitle, answer.salary, answer.deptID],
         (err, res) => {
           if (err) throw err;
           console.table(res);
@@ -248,43 +239,17 @@ function addDept() {
     .prompt([
       {
         type: "input",
-        message: "What's the first name of the new employee?",
-        name: "employeeFName",
-      },
-      {
-        type: "input",
-        message: "What's the last name of the new employee?",
-        name: "employeeLName",
-      },
-      {
-        type: "input",
-        message: "What is the employee's role id #?",
-        name: "roleID",
-      },
-      {
-        type: "input",
-        message:
-          "Does the new employee have a manager? If so, what is their manager's id #?",
-        name: "managerID",
+        message: "What's the new department name?",
+        name: "deptName",
       },
     ])
     .then((answer) => {
-      const query =
-        "INSERT INTO employee (fname, lname, roleId, managerId) VALUES (?, ?, ?, ?);";
-      connection.query(
-        query,
-        [
-          answer.employeeFName,
-          answer.employeeLName,
-          answer.roleID,
-          answer.managerID,
-        ],
-        (err, res) => {
-          if (err) throw err;
-          console.table(res);
-          start();
-        }
-      );
+      const query = "INSERT INTO department (deptName) VALUES (?);";
+      connection.query(query, [answer.deptName], (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        start();
+      });
     });
 }
 
@@ -311,13 +276,13 @@ function removeRole() {
     .prompt([
       {
         type: "input",
-        message: "What's the employee's ID #?",
-        name: "employeeID",
+        message: "What role do you wish to remove?",
+        name: "removeRole",
       },
     ])
     .then((answer) => {
-      const query = "DELETE FROM employee WHERE id = ?;";
-      connection.query(query, [answer.employeeID], (err, res) => {
+      const query = "DELETE FROM employeeRole WHERE id = ?;";
+      connection.query(query, [answer.removeRole], (err, res) => {
         if (err) throw err;
         console.table(res);
         start();
@@ -329,13 +294,13 @@ function removeDept() {
     .prompt([
       {
         type: "input",
-        message: "What's the employee's ID #?",
-        name: "employeeID",
+        message: "What department do you wish to remove",
+        name: "removeDept",
       },
     ])
     .then((answer) => {
-      const query = "DELETE FROM employee WHERE id = ?;";
-      connection.query(query, [answer.employeeID], (err, res) => {
+      const query = "DELETE FROM department WHERE id = ?;";
+      connection.query(query, [answer.removeDept], (err, res) => {
         if (err) throw err;
         console.table(res);
         start();
