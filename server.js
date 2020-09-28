@@ -38,10 +38,16 @@ function start() {
       message: "What would you like to do?",
       choices: [
         "View All Employees",
+        "View All Departments",
+        "View All Roles",
         "View All Employees by Department",
-        "View All Employess by Manager",
-        "Add Employee",
+        "View All Employees by Manager",
+        "Add New Employee",
+        "Add New Role",
+        "Add New Department",
         "Remove Employee",
+        "Remove Department",
+        "Remove Role",
         "Update Employee Role",
         "Update Employee Manager",
         "Exit",
@@ -53,20 +59,40 @@ function start() {
           viewEmpl();
           break;
 
-        case "View All Employees by Department":
-          viewEmplDept();
+        case "View All Departments":
+          viewDept();
           break;
 
-        case "View All Employess by Manager":
+        case "View All Roles":
+          viewRoles();
+          break;
+
+        case "View All Employees by Department":
+          viewEmplDept();
+
+        case "View All Employes by Manager":
           viewEmplMngr();
           break;
 
-        case "Add Employee":
+        case "Add New Employee":
           addEmpl();
+          break;
+
+        case "Add New Role":
+          addRole();
+          break;
+        case "Add New Department":
+          addDept();
           break;
 
         case "Remove Employee":
           removeEmpl();
+          break;
+        case "Remove Role":
+          removeRole();
+          break;
+        case "Remove Department":
+          removeDept();
           break;
         case "Update Employee Role":
           updateEmplRole();
@@ -82,27 +108,267 @@ function start() {
 }
 
 function viewEmpl() {
-  connection.query("");
+  const query =
+    "SELECT employee.id, employee.fname, employee.lname, employeeRole.title, department.deptName, employeeRole.salary FROM (( department INNER JOIN employeeRole ON department.id = employeeRole.deptid) INNER JOIN employee ON employee.roleId = employeeRole.id);";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
+}
+
+function viewDept() {
+  const query = "SELECT * FROM department";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
+}
+
+function viewRoles() {
+  const query = "SELECT * FROM employeeRole";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
 }
 
 function viewEmplDept() {
-  connection.query("");
+  const query = "SELECT * FROM department";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
 }
 
 function viewEmplMngr() {
-  connection.query("");
+  const query = "SELECT * FROM department";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    start();
+  });
 }
 
 function addEmpl() {
-  connection.query("");
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What's the first name of the new employee?",
+        name: "employeeFName",
+      },
+      {
+        type: "input",
+        message: "What's the last name of the new employee?",
+        name: "employeeLName",
+      },
+      {
+        type: "input",
+        message: "What is the employee's role id #?",
+        name: "roleID",
+      },
+      {
+        type: "input",
+        message:
+          "Does the new employee have a manager? If so, what is their manager's id #?",
+        name: "managerID",
+      },
+    ])
+    .then((answer) => {
+      const query =
+        "INSERT INTO employee (fname, lname, roleId, managerId) VALUES (?, ?, ?, ?);";
+      connection.query(
+        query,
+        [
+          answer.employeeFName,
+          answer.employeeLName,
+          answer.roleID,
+          answer.managerID,
+        ],
+        (err, res) => {
+          if (err) throw err;
+          console.table(res);
+          start();
+        }
+      );
+    });
+}
+
+function addRole() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What's the first name of the new employee?",
+        name: "employeeFName",
+      },
+      {
+        type: "input",
+        message: "What's the last name of the new employee?",
+        name: "employeeLName",
+      },
+      {
+        type: "input",
+        message: "What is the employee's role id #?",
+        name: "roleID",
+      },
+      {
+        type: "input",
+        message:
+          "Does the new employee have a manager? If so, what is their manager's id #?",
+        name: "managerID",
+      },
+    ])
+    .then((answer) => {
+      const query =
+        "INSERT INTO employee (fname, lname, roleId, managerId) VALUES (?, ?, ?, ?);";
+      connection.query(
+        query,
+        [
+          answer.employeeFName,
+          answer.employeeLName,
+          answer.roleID,
+          answer.managerID,
+        ],
+        (err, res) => {
+          if (err) throw err;
+          console.table(res);
+          start();
+        }
+      );
+    });
+}
+
+function addDept() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What's the first name of the new employee?",
+        name: "employeeFName",
+      },
+      {
+        type: "input",
+        message: "What's the last name of the new employee?",
+        name: "employeeLName",
+      },
+      {
+        type: "input",
+        message: "What is the employee's role id #?",
+        name: "roleID",
+      },
+      {
+        type: "input",
+        message:
+          "Does the new employee have a manager? If so, what is their manager's id #?",
+        name: "managerID",
+      },
+    ])
+    .then((answer) => {
+      const query =
+        "INSERT INTO employee (fname, lname, roleId, managerId) VALUES (?, ?, ?, ?);";
+      connection.query(
+        query,
+        [
+          answer.employeeFName,
+          answer.employeeLName,
+          answer.roleID,
+          answer.managerID,
+        ],
+        (err, res) => {
+          if (err) throw err;
+          console.table(res);
+          start();
+        }
+      );
+    });
 }
 
 function removeEmpl() {
-  connection.query("");
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What's the employee's ID #?",
+        name: "employeeID",
+      },
+    ])
+    .then((answer) => {
+      const query = "DELETE FROM employee WHERE id = ?;";
+      connection.query(query, [answer.employeeID], (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        start();
+      });
+    });
 }
-
+function removeRole() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What's the employee's ID #?",
+        name: "employeeID",
+      },
+    ])
+    .then((answer) => {
+      const query = "DELETE FROM employee WHERE id = ?;";
+      connection.query(query, [answer.employeeID], (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        start();
+      });
+    });
+}
+function removeDept() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What's the employee's ID #?",
+        name: "employeeID",
+      },
+    ])
+    .then((answer) => {
+      const query = "DELETE FROM employee WHERE id = ?;";
+      connection.query(query, [answer.employeeID], (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        start();
+      });
+    });
+}
 function updateEmplRole() {
-  connection.query("");
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Which employee would you like to update?",
+        name: "updateEmploy",
+      },
+
+      {
+        type: "input",
+        message: "What is their new role?",
+        name: "newRole",
+      },
+    ])
+    .then((answer) => {
+      const query = "UPDATE employee SET roleId = ? WHERE fname = ?";
+      connection.query(
+        query,
+        [answer.newRole, answer.updateEmploy],
+        (err, res) => {
+          if (err) throw err;
+          console.table(res);
+          start();
+        }
+      );
+    });
 }
 
 function updateEmplMngr() {
