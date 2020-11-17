@@ -181,16 +181,19 @@ function addEmpl() {
       },
     ])
     .then((answer) => {
+      var responses =[
+        answer.employeeFName,
+        answer.employeeLName,
+        answer.roleID,
+        answer.managerID,
+      ]
+      if (isNaN(parseInt(answer.managerID))){
+        responses[3] = null;
+      }
       const query =
         "INSERT INTO employee (fname, lname, roleId, managerId) VALUES (?, ?, ?, ?);";
       connection.query(
-        query,
-        [
-          answer.employeeFName,
-          answer.employeeLName,
-          answer.roleID,
-          answer.managerID,
-        ],
+        query, responses,
         (err, res) => {
           if (err) throw err;
           console.table(res);
@@ -199,6 +202,7 @@ function addEmpl() {
       );
     });
 }
+console.log(hi)
 
 function addRole() {
   inquirer
